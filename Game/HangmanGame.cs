@@ -4,27 +4,31 @@ internal class HangmanGame
 {
     private const char DefaultSymbol = '_';
     private string TargetWord { get; init; }
-    public char[] HiddenWord { get; private set; }
+    private char[] HiddenLetters { get; set; }
     private HashSet<string> WrongGuesses { get; } = [];
+    
+    public string HiddenWord => string.Join("", HiddenLetters) ?? string.Empty;
+    public string WrongGuessesDisplay => string.Join(", ", WrongGuesses);
 
     public HangmanGame(string word)
     {
+        if (string.IsNullOrWhiteSpace(word)) throw new ArgumentException(nameof(word));
+
         TargetWord = word.ToLower();
-        HiddenWord = new string(DefaultSymbol, word.Length).ToCharArray();
+        HiddenLetters = new string(DefaultSymbol, word.Length).ToCharArray();
     }
 
-    public bool IsWordGuessed => TargetWord.SequenceEqual(HiddenWord);
+    public bool IsWordGuessed => TargetWord.SequenceEqual(HiddenLetters);
 
     public bool MakeUniqueGuess(char letter)
     {
-        var guess = letter.ToString().ToLower();
+        var guess = char.ToLower(letter);
         if (HasAlreadyGuessed(guess)) return false;
 
-        if (TargetWord.Contains(letter))
-            RevealLetter(letter);
+        if (TargetWord.Contains(guess))
+            RevealLetter(guess);
         else
-            WrongGuesses.Add(guess);
-
+            WrongGuesses.Add(guess.ToString());
         return true;
     }
 
@@ -41,19 +45,25 @@ internal class HangmanGame
         return true;
     }
 
+    private bool HasAlreadyGuessed(char letter)
+    {
+        return IsWordGuessed
+            || WrongGuesses.Contains(letter.ToString())
+            || HiddenLetters.Contains(letter);
+    }
+
+
     private bool HasAlreadyGuessed(string word)
     {
-        return WrongGuesses.Contains(word)
-                || HiddenWord.Contains(word.FirstOrDefault())
-                || IsWordGuessed;
+        return IsWordGuessed || WrongGuesses.Contains(word);
     }
 
     private void RevealLetter(char letter)
     {
         for (var i = 0; i < TargetWord.Length; i++)
             if (TargetWord[i] == letter)
-                HiddenWord[i] = letter;
+                HiddenLetters[i] = letter;
     }
 
-    private void RevealWord() => HiddenWord = TargetWord.ToCharArray();
+    private void RevealWord() => HiddenLetters = TargetWord.ToCharArray();
 }
