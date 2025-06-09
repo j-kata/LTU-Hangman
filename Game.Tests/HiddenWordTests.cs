@@ -30,24 +30,34 @@ public class HiddenWordTests
     public void MakeUniqueGuess_ReturnsTrueWhenLetterGuessIsNew()
     {
         var word = GalaxyWord();
-        Assert.True(word.MakeUniqueGuess('A')); // correct guess (case insensivity)
-        Assert.True(word.MakeUniqueGuess('v')); // incorrect guess
+        Assert.True(word.TryMakeUniqueGuess('A', out bool _isCorrect)); // correct guess (case insensivity)
+        Assert.True(word.TryMakeUniqueGuess('v', out _isCorrect)); // incorrect guess
     }
 
     [Fact]
     public void MakeUniqueGuess_RevealsLetterWhenGuessedCorrectly()
     {
         var word = GalaxyWord();
-        Assert.True(word.MakeUniqueGuess('a'));
+        Assert.True(word.TryMakeUniqueGuess('a', out bool _isCorrect));
         Assert.Equal("_a_a__", word.GuessedWord);
+    }
+
+    [Fact]
+    public void MakeUniqueGuess_OutsExpectedResultAfterLetterGuess()
+    {
+        var word = GalaxyWord();
+        Assert.True(word.TryMakeUniqueGuess('A', out bool isCorrect));
+        Assert.True(isCorrect);
+        Assert.True(word.TryMakeUniqueGuess('v', out isCorrect));
+        Assert.False(isCorrect);
     }
 
     [Fact]
     public void MakeUniqueGuess_ReturnsFalseWhenCorrectLetterWasAlreadyGuessed()
     {
         var word = GalaxyWord();
-        Assert.True(word.MakeUniqueGuess('y'));
-        Assert.False(word.MakeUniqueGuess('y'));
+        Assert.True(word.TryMakeUniqueGuess('y', out bool _isCorrect));
+        Assert.False(word.TryMakeUniqueGuess('y', out _isCorrect));
         Assert.Equal("_____y", word.GuessedWord);
     }
 
@@ -55,32 +65,34 @@ public class HiddenWordTests
     public void MakeUniqueGuess_ReturnsTrueWhenWordGuessIsNew()
     {
         var word = GalaxyWord();
-        Assert.True(word.MakeUniqueGuess("apples")); // incorrect guess
-        Assert.True(word.MakeUniqueGuess("Galaxy")); // correct guess case insensitivity
+        Assert.True(word.TryMakeUniqueGuess("apples", out bool _isCorrect)); // incorrect guess
+        Assert.True(word.TryMakeUniqueGuess("Galaxy", out _isCorrect)); // correct guess case insensitivity
     }
 
     [Fact]
     public void MakeUniqueGuess_RevealsWordWhenGuessedCorrectly()
     {
         var word = GalaxyWord();
-        Assert.True(word.MakeUniqueGuess("galaxy"));
+        Assert.True(word.TryMakeUniqueGuess("galaxy", out bool _isCorrect));
         Assert.Equal("galaxy", word.GuessedWord);
+    }
+
+    [Fact]
+    public void MakeUniqueGuess_OutsExpectedResultAfterWordGuess()
+    {
+        var word = GalaxyWord();
+        Assert.True(word.TryMakeUniqueGuess("apples", out bool isCorrect));
+        Assert.False(isCorrect);
+        Assert.True(word.TryMakeUniqueGuess("galaxy", out isCorrect));
+        Assert.True(isCorrect);
     }
 
     [Fact]
     public void MakeUniqueGuess_AlwaysReturnsFalseIfWordWasAlreadyGuesses()
     {
         var word = GalaxyWord();
-        word.MakeUniqueGuess("galaxy");
-        Assert.False(word.MakeUniqueGuess('y')); // correct guess
-        Assert.False(word.MakeUniqueGuess("galaxy")); // correct guess
-    }
-
-    [Fact]
-    public void MakeUniqueGuess_ThrowsWhenTheWordIsNull()
-    {
-        var word = GalaxyWord();
-        Assert.Throws<ArgumentException>(() => word.MakeUniqueGuess(null));
-        Assert.Throws<ArgumentException>(() => word.MakeUniqueGuess("  "));
+        word.TryMakeUniqueGuess("galaxy", out bool _isCorrect);
+        Assert.False(word.TryMakeUniqueGuess('y', out _isCorrect)); // correct guess
+        Assert.False(word.TryMakeUniqueGuess("galaxy", out _isCorrect)); // correct guess
     }
 }

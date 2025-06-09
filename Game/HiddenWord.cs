@@ -21,45 +21,52 @@ internal class HiddenWord
         GuessedLetters = HideWord(targetWord, symbol);
     }
 
-    public bool MakeUniqueGuess(char letter)
+    public bool TryMakeUniqueGuess(char letter, out bool wasCorrectGuess)
     {
+        wasCorrectGuess = false;
+
         if (IsWordGuessed || HasAlreadyGuessed(letter))
             return false;
 
-        RevealLetter(letter);
+        wasCorrectGuess = RevealLetter(letter);
         return true;
     }
 
-    public bool MakeUniqueGuess(string word)
+    public bool TryMakeUniqueGuess(string word, out bool wasCorrectGuess)
     {
+        wasCorrectGuess = false;
+
         if (IsWordGuessed) return false;
 
-        RevealWord(word);
+        wasCorrectGuess = RevealWord(word);
         return true;
     }
 
     private bool HasAlreadyGuessed(char letter)
     {
-        var guess = char.ToLower(letter);
+        var guess = char.ToLowerInvariant(letter);
         if (letter == Symbol) return false;
 
         return GuessedLetters.Contains(guess);
     }
 
-    private void RevealLetter(char letter)
+    private bool RevealLetter(char letter)
     {
-        var guess = char.ToLower(letter);
+        var guess = char.ToLowerInvariant(letter);
+
+        if (!TargetWord.Contains(guess)) return false;
+
         for (var i = 0; i < TargetWord.Length; i++)
             if (TargetWord[i] == guess)
                 GuessedLetters[i] = guess;
+        return true;
     }
 
-    private void RevealWord(string word)
+    private bool RevealWord(string word)
     {
-        if (string.IsNullOrWhiteSpace(word))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(word));
+        if (!word.Equals(TargetWord, StringComparison.OrdinalIgnoreCase)) return false;
 
-        if (word.Equals(TargetWord, StringComparison.OrdinalIgnoreCase))
-            GuessedLetters = TargetWord.ToCharArray();
+        GuessedLetters = TargetWord.ToCharArray();
+        return true;
     } 
 }
