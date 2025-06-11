@@ -3,9 +3,9 @@ namespace Game;
 internal class HiddenWord
 {
     private char[] GuessedLetters { get; set; }
-    private string TargetWord { get; init; }
     private char Symbol { get; init; }
 
+    public string TargetWord { get; private init; }
     public string GuessedWord => string.Join("", GuessedLetters);
     public bool IsWordGuessed => TargetWord.SequenceEqual(GuessedLetters);
 
@@ -68,5 +68,5 @@ internal class HiddenWord
 
         GuessedLetters = TargetWord.ToCharArray();
         return true;
-    } 
+    }
 }

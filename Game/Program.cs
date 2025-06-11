@@ -13,7 +13,7 @@ class Program
 
     static void Main(string[] args)
     {
-        HandmanManager gameManager = new HandmanManager(_words, 10);
-        gameManager.StartGame();
+        HandmanSession session = new(_words);
+        session.Run();
     }
 }

@@ -1,18 +1,17 @@
-using Game.Abstractions;
-
 namespace Game;
 
-internal class HangmanGame(string word, int attempts) : IGame
+internal class HangmanGame(string word, int attempts)
 {
     private int Attempts { get; set; } = attempts;
     private HiddenWord HiddenWord { get; } = new HiddenWord(word);
     private WrongGuesses WrongGuesses { get; } = new();
 
     public int AttemptsLeft => Attempts;
-    public string Word => HiddenWord.GuessedWord;
-    public string Guesses => WrongGuesses.ToString();
+    public string TargetWord => HiddenWord.TargetWord;
+    public string GuessedWord => HiddenWord.GuessedWord;
+    public string WrongGuessesList => WrongGuesses.ToString();
 
-    public void Input(string guess)
+    public void MakeGuess(string guess)
     {
         if (IsGameOver() || string.IsNullOrWhiteSpace(guess)) return;
 
