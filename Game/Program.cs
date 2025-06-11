@@ -1,4 +1,6 @@
-﻿namespace Game;
+﻿using Game.Helpers;
+
+namespace Game;
 
 class Program
 {
@@ -8,8 +10,10 @@ class Program
         "castle", "oxygen", "flamingo", "volcano", "cyclone",
         "diamond", "fortune", "phantom", "cactus", "harvest",
     ];
+
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        GameManager gameManager = new GameManager(_words, 10);
+        gameManager.StartGame();
     }
 }

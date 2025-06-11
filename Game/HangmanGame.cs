@@ -1,69 +1,49 @@
 namespace Game;
 
-internal class HangmanGame
+internal class HangmanGame(string word, int attempts)
 {
-    private const char DefaultSymbol = '_';
-    private string TargetWord { get; init; }
-    private char[] HiddenLetters { get; set; }
-    private HashSet<string> WrongGuesses { get; } = [];
-    
-    public string HiddenWord => string.Join("", HiddenLetters) ?? string.Empty;
-    public string WrongGuessesDisplay => string.Join(", ", WrongGuesses);
+    private int Attempts { get; set; } = attempts;
+    private HiddenWord HiddenWord { get; } = new HiddenWord(word);
+    private WrongGuesses WrongGuesses { get; } = new();
 
-    public HangmanGame(string word)
+    public int AttemptsLeft => Attempts;
+    public string Word => HiddenWord.GuessedWord;
+    public string Guesses => WrongGuesses.ToString();
+
+    public void MakeGuess(string guess)
     {
-        if (string.IsNullOrWhiteSpace(word)) throw new ArgumentException(nameof(word));
+        if (IsGameOver() || string.IsNullOrWhiteSpace(guess)) return;
 
-        TargetWord = word.ToLower();
-        HiddenLetters = new string(DefaultSymbol, word.Length).ToCharArray();
-    }
+        guess = guess.Trim().ToLowerInvariant();
 
-    public bool IsWordGuessed => TargetWord.SequenceEqual(HiddenLetters);
-
-    public bool MakeUniqueGuess(char letter)
-    {
-        var guess = char.ToLower(letter);
-        if (HasAlreadyGuessed(guess)) return false;
-
-        if (TargetWord.Contains(guess))
-            RevealLetter(guess);
+        if (guess.Length == 1)
+            MakeLetterGuess(guess[0]);
         else
-            WrongGuesses.Add(guess.ToString());
-        return true;
+            MakeWordGuess(guess);
     }
 
-    public bool MakeUniqueGuess(string word)
+    private void MakeLetterGuess(char letter)
     {
-        var guess = word.ToLower();
-        if (HasAlreadyGuessed(guess)) return false;
+        if (!HiddenWord.TryMakeUniqueGuess(letter, out bool correct))
+            return;
 
-        if (guess == TargetWord)
-            RevealWord();
-        else
-            WrongGuesses.Add(word);
+        if (!correct && !WrongGuesses.Add(letter.ToString()))
+            return;
 
-        return true;
+        Attempts--;
     }
 
-    private bool HasAlreadyGuessed(char letter)
+    private void MakeWordGuess(string word)
     {
-        return IsWordGuessed
-            || WrongGuesses.Contains(letter.ToString())
-            || HiddenLetters.Contains(letter);
+        if (!HiddenWord.TryMakeUniqueGuess(word, out bool correct))
+            return;
+
+        if (!correct && !WrongGuesses.Add(word))
+            return;
+
+        Attempts--;
     }
 
-
-    private bool HasAlreadyGuessed(string word)
-    {
-        return IsWordGuessed || WrongGuesses.Contains(word);
-    }
-
-    private void RevealLetter(char letter)
-    {
-        for (var i = 0; i < TargetWord.Length; i++)
-            if (TargetWord[i] == letter)
-                HiddenLetters[i] = letter;
-    }
-
-    private void RevealWord() => HiddenLetters = TargetWord.ToCharArray();
+    public bool IsWon() => HiddenWord.IsWordGuessed;
+    public bool IsGameOver() => Attempts <= 0 || IsWon();
 }
