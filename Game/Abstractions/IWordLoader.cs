@@ -1,4 +1,4 @@
-namespace Game.WordLoader;
+namespace Game.Abstractions;
 
 public interface IWordLoader
 {

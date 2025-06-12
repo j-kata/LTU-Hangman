@@ -1,4 +1,4 @@
-using Game.WordLoader;
+using Game.Abstractions;
 
 namespace Game.Tests.Mock;
 

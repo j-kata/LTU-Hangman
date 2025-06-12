@@ -1,4 +1,4 @@
-using Game.UI;
+using Game.Abstractions;
 
 namespace Game.WordLoader;
 

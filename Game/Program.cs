@@ -6,7 +6,6 @@ namespace Game;
 
 class Program
 {
-
     static void Main(string[] args)
     {
         ConsoleUI ui = new();
@@ -21,7 +20,9 @@ class Program
             return;
         }
 
-        HandmanSession session = new(words, ui);
+        Randomizer<string> randomizer = new(words);
+        HandmanSession session = new(randomizer, ui);
+
         session.Run();
     }
 }

@@ -1,9 +1,10 @@
 using System.Text;
 using Game.UI;
+using Game.Abstractions;
 
 namespace Game;
 
-class HandmanManager(string word, int attempts, IUI ui)
+class HandmanManager(string word, int attempts, IUI ui) : IHandmanManager
 {
     private HangmanGame Game { get; } = new HangmanGame(word, attempts);
 

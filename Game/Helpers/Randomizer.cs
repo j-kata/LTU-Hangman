@@ -1,6 +1,8 @@
+using Game.Abstractions;
+
 namespace Game.Helpers;
 
-internal class Randomizer<T>
+internal class Randomizer<T> : IRandomizer<T>
 {
     private int _currentIndex = 0;
     private readonly Random Random = new();
