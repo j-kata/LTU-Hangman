@@ -1,5 +1,7 @@
 using Game.UI;
 
+namespace Game.Tests.Mock;
+
 class MockUI : IUI
 {
 
