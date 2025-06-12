@@ -1,19 +1,23 @@
 ﻿using Game.Helpers;
+using Game.WordLoader;
 
 namespace Game;
 
 class Program
 {
-    private static readonly string[] _words = [
-        "apple", "jungle", "breeze", "rocket", "python",
-        "island", "puzzle", "galaxy", "whisper", "shadow",
-        "castle", "oxygen", "flamingo", "volcano", "cyclone",
-        "diamond", "fortune", "phantom", "cactus", "harvest",
-    ];
 
     static void Main(string[] args)
     {
-        HandmanSession session = new(_words);
+        FileWordLoader wordLoader = new (Environment.CurrentDirectory + "/Data/words.txt");
+        string[] words = wordLoader.LoadWords();
+
+        if (words.Length == 0)
+        {
+            Console.WriteLine("No words were loaded. Please check the file and try again.");
+            return;
+        }
+
+        HandmanSession session = new(words);
         session.Run();
     }
 }
