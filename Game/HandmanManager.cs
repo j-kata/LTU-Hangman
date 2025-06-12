@@ -4,7 +4,7 @@ using Game.Abstractions;
 
 namespace Game;
 
-class HandmanManager(string word, int attempts, IUI ui) : IHandmanManager
+class HandmanManager(string word, int attempts, IUI ui) : IManager
 {
     private HangmanGame Game { get; } = new HangmanGame(word, attempts);
 

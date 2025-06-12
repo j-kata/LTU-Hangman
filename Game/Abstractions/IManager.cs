@@ -1,6 +1,6 @@
 namespace Game.Abstractions;
 
-interface IHandmanManager
+interface IManager
 {
     void RunRound();
 }

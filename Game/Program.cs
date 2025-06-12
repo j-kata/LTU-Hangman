@@ -20,8 +20,9 @@ class Program
             return;
         }
 
-        Randomizer<string> randomizer = new(words);
-        HandmanSession session = new(randomizer, ui);
+        var randomizer = new Randomizer<string>(words);
+        var factory = (string word, int attempts, IUI ui) => new HandmanManager(word, attempts, ui);
+        HandmanSession session = new(randomizer, factory, ui);
 
         session.Run();
     }
