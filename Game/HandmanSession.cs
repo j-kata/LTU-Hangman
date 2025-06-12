@@ -1,9 +1,9 @@
-using System.Text;
 using Game.Helpers;
+using Game.UI;
 
 namespace Game;
 
-class HandmanSession(string[] words)
+class HandmanSession(string[] words, IUI ui)
 {
     private readonly Randomizer<string> _randomizer = new(words);
 
@@ -13,11 +13,11 @@ class HandmanSession(string[] words)
 
         while (keepPlaying)
         {
-            var manager = new HandmanManager(_randomizer.GetNextItem(), attempts: 10);
+            var manager = new HandmanManager(_randomizer.GetNextItem(), attempts: 10, ui);
             manager.RunRound();
 
-            Console.Write("Do you want to play again? (y/n) ");
-            keepPlaying = Console.ReadLine()?.ToLower() == "y";
+            ui.PrintLine("Do you want to play again? (y/n) ");
+            keepPlaying = ui.ReadLine()?.ToLower() == "y";
         }
     }
 }

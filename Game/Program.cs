@@ -1,4 +1,5 @@
 ﻿using Game.Helpers;
+using Game.UI;
 using Game.WordLoader;
 
 namespace Game;
@@ -8,16 +9,19 @@ class Program
 
     static void Main(string[] args)
     {
-        FileWordLoader wordLoader = new (Environment.CurrentDirectory + "/Data/words.txt");
-        string[] words = wordLoader.LoadWords();
+        ConsoleUI ui = new();
+
+        var filePath = $"{Environment.CurrentDirectory}/Data/words.txt";
+        FileWordLoader wordLoader = new(filePath);
+        string[] words = wordLoader.LoadWords(ui.PrintLine);
 
         if (words.Length == 0)
         {
-            Console.WriteLine("No words were loaded. Please check the file and try again.");
+            ui.PrintLine("No words were loaded. Please check the file and try again.");
             return;
         }
 
-        HandmanSession session = new(words);
+        HandmanSession session = new(words, ui);
         session.Run();
     }
 }

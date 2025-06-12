@@ -1,8 +1,10 @@
+using Game.UI;
+
 namespace Game.WordLoader;
 
 public class FileWordLoader(string filename) : IWordLoader
 {
-    public string[] LoadWords()
+    public string[] LoadWords(Action<string> callback)
     {
         try
         {
@@ -14,7 +16,7 @@ public class FileWordLoader(string filename) : IWordLoader
         }
         catch (Exception e)
         {
-            Console.WriteLine("Exception: " + e.Message);
+            callback("Exception: " + e.Message);
             return [];
         }
     }

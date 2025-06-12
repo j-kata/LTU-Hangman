@@ -1,8 +1,9 @@
 using System.Text;
+using Game.UI;
 
 namespace Game;
 
-class HandmanManager(string word, int attempts = 10)
+class HandmanManager(string word, int attempts, IUI ui)
 {
     private HangmanGame Game { get; } = new HangmanGame(word, attempts);
 
@@ -10,14 +11,14 @@ class HandmanManager(string word, int attempts = 10)
     {
         while (!Game.IsGameOver())
         {
-            Console.WriteLine(GetGameLog());
+            ui.PrintLine(GetGameLog());
 
-            Console.Write("Your guess: ");
-            var guess = Console.ReadLine()?.Trim() ?? string.Empty;
+            ui.Print("Your guess: ");
+            var guess = ui.ReadLine() ?? string.Empty;
 
             Game.MakeGuess(guess);
         }
-        Console.WriteLine(GetGameResult());
+        ui.PrintLine(GetGameResult());
     }
 
     private string GetGameResult()
