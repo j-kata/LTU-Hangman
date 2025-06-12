@@ -1,3 +1,5 @@
+using Game.Abstractions;
+
 namespace Game.UI;
 
 public class ConsoleUI : IUI
