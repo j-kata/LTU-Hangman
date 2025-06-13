@@ -1,6 +1,6 @@
 using Game.Abstractions;
 
-namespace Game.Tests.Mock;
+namespace Game.Tests.MockHelpers;
 
 class MockWordLoader(string[] words) : IWordLoader
 {

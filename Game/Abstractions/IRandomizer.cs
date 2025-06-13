@@ -1,6 +1,6 @@
 namespace Game.Abstractions;
 
-internal interface IRandomizer<T>
+public interface IRandomizer<T>
 {
     T[] Items { get; init; }
 
