@@ -3,21 +3,21 @@ using Game.Abstractions;
 
 namespace Game.Tests;
 
-public class HandmanSessionTests
+public class HangmanSessionTests
 {
     private readonly Mock<IUI> _ui = new();
     private readonly Mock<IManager> _manager = new();
     private readonly Func<string, int, IUI, IManager> _factory;
     private readonly Mock<IRandomizer<string>> _randomizer = new();
-    private readonly HandmanSession _session;
+    private readonly HangmanSession _session;
     private int _countRounds;
 
-    public HandmanSessionTests()
+    public HangmanSessionTests()
     {
         _countRounds = 0;
         _randomizer.Setup(r => r.GetNextItem()).Returns("galaxy");
         _factory = (words, attempts, ui) => _manager.Object;
-        _session = new HandmanSession(_randomizer.Object, _factory, _ui.Object);
+        _session = new HangmanSession(_randomizer.Object, _factory, _ui.Object);
         _manager.Setup(m => m.RunRound()).Callback(() => _countRounds++);
     }
 

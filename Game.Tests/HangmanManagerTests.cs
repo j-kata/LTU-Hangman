@@ -3,14 +3,14 @@ using Moq;
 
 namespace Game.Tests;
 
-public class HandmanManagerTests
+public class HangmanManagerTests
 {
     private const string Word = "galaxy";
     private const int Attempts = 3;
     private readonly Mock<IUI> _ui = new();
-    private readonly HandmanManager _manager;
+    private readonly HangmanManager _manager;
 
-    public HandmanManagerTests()
+    public HangmanManagerTests()
     {
         _manager = new(Word, Attempts, _ui.Object);
     }

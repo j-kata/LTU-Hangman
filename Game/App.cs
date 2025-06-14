@@ -25,7 +25,7 @@ public class App(string filePath)
 
     private static Func<string, int, IUI, IManager> InitFactory()
     {
-        return (word, attempts, ui) => new HandmanManager(word, attempts, ui);
+        return (word, attempts, ui) => new HangmanManager(word, attempts, ui);
     }
 
     private string[] LoadWords(IUI ui)
@@ -38,7 +38,7 @@ public class App(string filePath)
     {
         var randomizer = InitRandomizer(words);
         var factory = InitFactory();
-        var session = new HandmanSession(randomizer, factory, ui);
+        var session = new HangmanSession(randomizer, factory, ui);
 
         session.Run();
     }

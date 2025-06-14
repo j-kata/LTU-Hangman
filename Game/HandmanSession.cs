@@ -3,7 +3,7 @@ using Game.UI;
 
 namespace Game;
 
-public class HandmanSession(
+public class HangmanSession(
     IRandomizer<string> randomizer,
     Func<string, int, IUI, IManager> factory,
     IUI ui,
