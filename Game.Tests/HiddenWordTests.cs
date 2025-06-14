@@ -12,7 +12,7 @@ public class HiddenWordTests
     }
 
     [Fact]
-    public void Constructor_HidesTargetWordWithSymbols()
+    public void Constructor_HidesTargetWord_WithSymbols()
     {
         var word = new HiddenWord("galaxy", '#');
         Assert.Equal("######", word.GuessedWord);
@@ -20,14 +20,14 @@ public class HiddenWordTests
 
 
     [Fact]
-    public void Constructor_HidesTargetWordWithDefaultSymbols()
+    public void Constructor_HidesTargetWord_WithDefaultSymbols()
     {
         var word = new HiddenWord("galaxy");
         Assert.Equal("______", word.GuessedWord);
     }
 
     [Fact]
-    public void MakeUniqueGuess_ReturnsTrueWhenLetterGuessIsNew()
+    public void MakeUniqueGuess_ReturnsTrue_WhenLetterGuessIsNew()
     {
         var word = GalaxyWord();
         Assert.True(word.TryMakeUniqueGuess('A', out bool _isCorrect)); // correct guess (case insensivity)
@@ -35,7 +35,7 @@ public class HiddenWordTests
     }
 
     [Fact]
-    public void MakeUniqueGuess_RevealsLetterWhenGuessedCorrectly()
+    public void MakeUniqueGuess_RevealsLetter_WhenGuessedCorrectly()
     {
         var word = GalaxyWord();
         Assert.True(word.TryMakeUniqueGuess('a', out bool _isCorrect));
@@ -43,7 +43,7 @@ public class HiddenWordTests
     }
 
     [Fact]
-    public void MakeUniqueGuess_OutsExpectedResultAfterLetterGuess()
+    public void MakeUniqueGuess_OutsExpectedResult_AfterLetterGuess()
     {
         var word = GalaxyWord();
         Assert.True(word.TryMakeUniqueGuess('A', out bool isCorrect));
@@ -53,7 +53,7 @@ public class HiddenWordTests
     }
 
     [Fact]
-    public void MakeUniqueGuess_ReturnsFalseWhenCorrectLetterWasAlreadyGuessed()
+    public void MakeUniqueGuess_ReturnsFalse_WhenCorrectLetterWasAlreadyGuessed()
     {
         var word = GalaxyWord();
         Assert.True(word.TryMakeUniqueGuess('y', out bool _isCorrect));
@@ -62,7 +62,7 @@ public class HiddenWordTests
     }
 
     [Fact]
-    public void MakeUniqueGuess_ReturnsTrueWhenWordGuessIsNew()
+    public void MakeUniqueGuess_ReturnsTrue_WhenWordGuessIsNew()
     {
         var word = GalaxyWord();
         Assert.True(word.TryMakeUniqueGuess("apples", out bool _isCorrect)); // incorrect guess
@@ -70,7 +70,7 @@ public class HiddenWordTests
     }
 
     [Fact]
-    public void MakeUniqueGuess_RevealsWordWhenGuessedCorrectly()
+    public void MakeUniqueGuess_RevealsWord_WhenGuessedCorrectly()
     {
         var word = GalaxyWord();
         Assert.True(word.TryMakeUniqueGuess("galaxy", out bool _isCorrect));
@@ -78,7 +78,7 @@ public class HiddenWordTests
     }
 
     [Fact]
-    public void MakeUniqueGuess_OutsExpectedResultAfterWordGuess()
+    public void MakeUniqueGuess_OutsExpectedResult_AfterWordGuess()
     {
         var word = GalaxyWord();
         Assert.True(word.TryMakeUniqueGuess("apples", out bool isCorrect));
@@ -88,7 +88,7 @@ public class HiddenWordTests
     }
 
     [Fact]
-    public void MakeUniqueGuess_AlwaysReturnsFalseIfWordWasAlreadyGuesses()
+    public void MakeUniqueGuess_AlwaysReturnsFalse_IfWordWasAlreadyGuessed()
     {
         var word = GalaxyWord();
         word.TryMakeUniqueGuess("galaxy", out bool _isCorrect);

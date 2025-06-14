@@ -22,7 +22,7 @@ public class WrongGuessesTests
     }
 
     [Fact]
-    public void Add_ReturnsFalseIfValueWasAlreadyAdded()
+    public void Add_ReturnsFalse_IfValueWasAlreadyAdded()
     {
         var wrongGuesses = new WrongGuesses();
         wrongGuesses.Add("guess");

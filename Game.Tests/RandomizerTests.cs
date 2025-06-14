@@ -6,7 +6,7 @@ public class RandomizerTests
 {
 
     [Fact]
-    public void GetNextItem_ReturnsAllItemsBerforRepeat()
+    public void GetNextItem_ReturnsAllItems_BerforRepeat()
     {
         var array = new int[10] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         var randomizer = new Randomizer<int>(array);
@@ -21,7 +21,7 @@ public class RandomizerTests
     }
 
     [Fact]
-    public void GetNextItem_ReshufflesAfterExhausting()
+    public void GetNextItem_Reshuffles_AfterExhausting()
     {
         var array = new int[10] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         var randomizer = new Randomizer<int>(array);
@@ -38,5 +38,5 @@ public class RandomizerTests
         // Can't rely on shuffle direct and check rounds for equality
         Assert.All(array, item => Assert.Contains(item, round1));
         Assert.All(array, item => Assert.Contains(item, round2));
-    }    
+    }
 }

@@ -35,7 +35,7 @@ public class HandmanSessionTests
     }
 
     [Fact]
-    public void Run_PrintsPromtAfterRound()
+    public void Run_PrintsPromt_AfterRound()
     {
         _ui.SetInputs(["n"]);
         _session.Run();
@@ -44,7 +44,7 @@ public class HandmanSessionTests
     }
 
     [Fact]
-    public void Run_ContinuesGameIfUserSaysYes()
+    public void Run_ContinuesGame_IfUserSaysYes()
     {
         _ui.SetInputs(["y", "n"]);
         _session.Run();
@@ -53,7 +53,7 @@ public class HandmanSessionTests
     }
 
     [Fact]
-    public void Run_StopsGameIfUserSaysAnythingButYes()
+    public void Run_StopsGame_IfUserSaysAnythingButYes()
     {
         _ui.SetInputs(["any thing"]);
         _session.Run();
@@ -62,7 +62,7 @@ public class HandmanSessionTests
     }
 
     [Fact]
-    public void Run_WorksAsExpectedWhenUserTypesInUpperCase()
+    public void Run_WorksAsExpected_WhenUserTypesInUpperCase()
     {
         _ui.SetInputs(["Y", "N"]);
         _session.Run();

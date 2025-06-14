@@ -17,7 +17,7 @@ public class HandmanManagerTests
     }
 
     [Fact]
-    public void RunRound_PrintsPromptBeforeUserInput()
+    public void RunRound_PrintsPrompt_BeforeUserInput()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -29,7 +29,7 @@ public class HandmanManagerTests
     }
 
     [Fact]
-    public void RunRound_ReadsUserInputUntilGameIsOver()
+    public void RunRound_ReadsUserInput_UntilGameIsOver()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -40,7 +40,7 @@ public class HandmanManagerTests
     }
 
     [Fact]
-    public void RunRound_PrintsHiddenWordWhileGameIsOn()
+    public void RunRound_PrintsPartialWord_BeforeNewGuess()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -48,13 +48,13 @@ public class HandmanManagerTests
             .Returns("y");
 
         _manager.RunRound();
+        _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("The word: ______"))), Times.Exactly(1));
         _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("The word: g_____"))), Times.Exactly(1));
         _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("The word: ga_a__"))), Times.Exactly(1));
-        _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("The word: ga_a_y"))), Times.Exactly(0));
     }
 
     [Fact]
-    public void RunRound_PrintsAttemptsLeftWhileGameIsOn()
+    public void RunRound_PrintsAttemptsLeft_BeforeNewGuess()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -63,14 +63,13 @@ public class HandmanManagerTests
             .Returns("l");
 
         _manager.RunRound();
+        _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("Attempts left: 3"))), Times.Exactly(1));
         _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("Attempts left: 2"))), Times.Exactly(1));
         _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("Attempts left: 1"))), Times.Exactly(2));
-        _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("Attempts left: 0"))), Times.Exactly(0));
     }
 
-
     [Fact]
-    public void RunRound_PrintsWrongGuessesWhileGameIsOn()
+    public void RunRound_PrintsWrongGuesses_BeforeNewGuess()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("j")
@@ -80,11 +79,10 @@ public class HandmanManagerTests
 
         _manager.RunRound();
         _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("Wrong guesses: j"))), Times.Exactly(3));
-        _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("Wrong guesses: j, v"))), Times.Exactly(0));
     }
 
     [Fact]
-    public void RunRound_DoesNotPrintsWrongGuessesIfItIsEmpty()
+    public void RunRound_DoesNotPrintWrongGuesses_IfEmpty()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -93,11 +91,11 @@ public class HandmanManagerTests
             .Returns("l");
 
         _manager.RunRound();
-        _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("Wrong guesses:"))), Times.Exactly(0));
+        _ui.Verify(x => x.PrintLine(It.Is<string>(s => s.Contains("Wrong guesses:"))), Times.Never());
     }
 
     [Fact]
-    public void RunRound_DoesNotPrintsLogIfGameIsOver()
+    public void RunRound_DoesNotPrintLog_IfGameIsOver()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -109,7 +107,7 @@ public class HandmanManagerTests
     }
 
     [Fact]
-    public void RunRound_PrintsYouWonIfUserWon()
+    public void RunRound_PrintsYouWon_IfUserHasWon()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -121,7 +119,7 @@ public class HandmanManagerTests
     }
 
     [Fact]
-    public void RunRound_PrintsYouLostIfUserLost()
+    public void RunRound_PrintsYouLost_IfUserHasLost()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -133,7 +131,7 @@ public class HandmanManagerTests
     }
 
     [Fact]
-    public void RunRound_PrintsGameOverWhenGameIsOver()
+    public void RunRound_PrintsGameOver_WhenGameIsOver()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -145,7 +143,7 @@ public class HandmanManagerTests
     }
 
     [Fact]
-    public void RunRound_PrintsTargetWordWhenGameIsOver()
+    public void RunRound_PrintsTargetWord_WhenGameIsOver()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
@@ -157,7 +155,7 @@ public class HandmanManagerTests
     }
 
     [Fact]
-    public void RunRound_DoesNotPrintResultIfGameIsOn()
+    public void RunRound_PrintsResults_OnlyOnce()
     {
         _ui.SetupSequence(x => x.ReadLine())
             .Returns("g")
